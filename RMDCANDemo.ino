@@ -8,16 +8,20 @@ uint16_t currentSpeed = 60;
 
 void printHelp() {
   Serial.println("\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
-  Serial.println("1<return> -- get motor status 1");
-  Serial.println("2<return> -- get motor status 2");
-  Serial.println("3<return> -- get motor status 3");
-  Serial.println("S<return> -- display current speed");
-  Serial.print("s<return> -- set current movement speed (currently ");
+  Serial.println("USAGE:");
+  Serial.println("\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
+  Serial.println("Type a one character command followed by <return>");
+  Serial.println("Valid commands:");
+  Serial.println(" 1 -- get motor status 1");
+  Serial.println(" 2 -- get motor status 2");
+  Serial.println(" 3 -- get motor status 3");
+  Serial.println(" S -- display current speed");
+  Serial.print(" s -- set current movement speed (currently ");
   Serial.print(currentSpeed);
   Serial.println(") follow subsequent prompt to set the speed in integer degrees per second");
-  Serial.println("P<return> -- display actuator current position in degrees");
-  Serial.println("p<return> -- set position in floating point degrees");
-  Serial.println("?<return> -- print this help message");
+  Serial.println(" P -- display actuator current position in degrees");
+  Serial.println(" p -- set position in floating point degrees");
+  Serial.println(" ? -- print this help message");
   Serial.println("\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
 }
 
