@@ -12,7 +12,7 @@ void printHelp() {
   Serial.println("2<return> -- get motor status 2");
   Serial.println("3<return> -- get motor status 3");
   Serial.print("s<return> -- set current movement speed (currently ");
-  Serial.print(currenSpeed);
+  Serial.print(currentSpeed);
   Serial.println(") follow subsequent prompt to set the speed in integer degrees per second");
   Serial.println("p<return> -- set position in floating point degrees");
   Serial.println("?<return> -- print this help message");
