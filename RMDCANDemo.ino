@@ -11,9 +11,11 @@ void printHelp() {
   Serial.println("1<return> -- get motor status 1");
   Serial.println("2<return> -- get motor status 2");
   Serial.println("3<return> -- get motor status 3");
+  Serial.println("S<return> -- display current speed");
   Serial.print("s<return> -- set current movement speed (currently ");
   Serial.print(currentSpeed);
   Serial.println(") follow subsequent prompt to set the speed in integer degrees per second");
+  Serial.println("P<return> -- display actuator current position in degrees");
   Serial.println("p<return> -- set position in floating point degrees");
   Serial.println("?<return> -- print this help message");
   Serial.println("\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
@@ -84,8 +86,12 @@ void loop() {
         Serial.println(msg.motorStatus3Reply.phaseCAmps());
         Serial.println("\n-------------------------------\n");
         } break;
-      case 's':
-      case 'S': {
+      case 'S':
+        Serial.print("Current speed: ");
+        Serial.println(currentSpeed);
+        Serial.println("\n-------------------------------\n");
+        break;
+      case 's': {
           Serial.print("Set speed (currently ");
           Serial.print(currentSpeed);
           Serial.println(")");
@@ -100,8 +106,15 @@ void loop() {
         }
         Serial.println("\n-------------------------------\n");
         break;
-      case 'p':
       case 'P': {
+          const RMDMsg &msg = servo.getPosition();
+          Serial.print("Current position: ");
+          Serial.print(msg.multiTurnAngleReply.angleDegrees());
+          Serial.println(" degrees");
+        }
+        Serial.println("\n-------------------------------\n");
+        break;
+      case 'p': {
           Serial.println("Set position");
           Serial.print(" enter position in degrees > ");
           while(Serial.available()) { Serial.read(); }
