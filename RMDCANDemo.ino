@@ -11,7 +11,9 @@ void printHelp() {
   Serial.println("1<return> -- get motor status 1");
   Serial.println("2<return> -- get motor status 2");
   Serial.println("3<return> -- get motor status 3");
-  Serial.println("s<return> -- set current movement speed; follow subsequent prompt to set the speed in integer degrees per second");
+  Serial.print("s<return> -- set current movement speed (currently ");
+  Serial.print(currenSpeed);
+  Serial.println(") follow subsequent prompt to set the speed in integer degrees per second");
   Serial.println("p<return> -- set position in floating point degrees");
   Serial.println("?<return> -- print this help message");
   Serial.println("\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
@@ -84,7 +86,9 @@ void loop() {
         } break;
       case 's':
       case 'S': {
-          Serial.println("Set speed");
+          Serial.print("Set speed (currently ");
+          Serial.print(currentSpeed);
+          Serial.println(")");
           Serial.print(" enter absolute max speed > ");
           while(Serial.available()) { Serial.read(); }
           while(!Serial.available()) { }
