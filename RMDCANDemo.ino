@@ -1,11 +1,12 @@
 #include "RMD_L.hpp"
 
-CANSAME5x gCan;
-RMDCAN rmd(gCan);
-RMD_L servo(1, rmd);
+CANSAME5x gCan;       // Adafruit's CAN Driver API
+RMDCAN rmd(gCan);     // Wrapper that can read and write CAN packets
+RMD_L servo(1, rmd);  // Wrapper that 
 
 uint16_t currentSpeed = 60;
 
+// Function to print help message
 void printHelp() {
   Serial.println("\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
   Serial.println("USAGE:");
@@ -25,36 +26,42 @@ void printHelp() {
   Serial.println("\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
 }
 
+// One-time Setup
 void setup() {
+  // Enable serial communication
   Serial.begin(115200);
   while(!Serial) delay(10);
 
-  Serial.setTimeout(30000);
-
-  Serial.println("RMDCAN Demo");
-
+  // Configure CAN hardware
   pinMode(PIN_CAN_STANDBY, OUTPUT);
   digitalWrite(PIN_CAN_STANDBY, false);
   pinMode(PIN_CAN_BOOSTEN, OUTPUT);
   digitalWrite(PIN_CAN_BOOSTEN, true);
 
+  // Enable CAN communication at 1 Mbps
   if(!gCan.begin(1000000)) {
     Serial.println("Failed to start CAN");
     while(1);
   }
+
+  // Print greeting
+  Serial.println("RMDCAN Demo");
   Serial.println("CAN Online");
   Serial.println("\n-------------------------------\n");
 
-  servo.motorResume();
-
+  // Print help message
   printHelp();
 }
 
 void loop() {
+  // If bytes are available on the console
   if(Serial.available()) {
+    // Read the first character
     char cmd = Serial.read();
     switch(cmd) {
+      // Help requested
       case '?': printHelp(); break;
+      // Query the acutator for motor status 1
       case '1': {
         Serial.println("Get motor status 1");
         const RMDMsg &msg = servo.getMotorStatus1();
@@ -66,6 +73,7 @@ void loop() {
         Serial.println(msg.motorStatus1Reply.error);
         Serial.println("\n-------------------------------\n");
         } break;
+      // Query the acutator for motor status 2
       case '2': {
         Serial.println("Get motor status 2");
         const RMDMsg &msg = servo.getMotorStatus2();
@@ -79,6 +87,7 @@ void loop() {
         Serial.println(msg.motorStatus2Reply.encoderPos);
         Serial.println("\n-------------------------------\n");
         } break;
+      // Query the acutator for motor status 3
       case '3': {
         Serial.println("Get motor status 3");
         const RMDMsg &msg = servo.getMotorStatus3();
@@ -90,11 +99,13 @@ void loop() {
         Serial.println(msg.motorStatus3Reply.phaseCAmps());
         Serial.println("\n-------------------------------\n");
         } break;
+      // Display the speed to be used for position commands
       case 'S':
         Serial.print("Current speed: ");
         Serial.println(currentSpeed);
         Serial.println("\n-------------------------------\n");
         break;
+      // Set the speed to be used for subsequent position commands
       case 's': {
           Serial.print("Set speed (currently ");
           Serial.print(currentSpeed);
@@ -110,6 +121,7 @@ void loop() {
         }
         Serial.println("\n-------------------------------\n");
         break;
+      // Display the actuator's angular position
       case 'P': {
           const RMDMsg &msg = servo.getPosition();
           Serial.print("Current position: ");
@@ -118,6 +130,7 @@ void loop() {
         }
         Serial.println("\n-------------------------------\n");
         break;
+      // Command the actuator to an angle at the currently set speed
       case 'p': {
           Serial.println("Set position");
           Serial.print(" enter position in degrees > ");

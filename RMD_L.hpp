@@ -12,6 +12,7 @@ class RMD_L {
     RMD_L(uint8_t iDeviceID, RMDCAN &iRMD) : id(iDeviceID), rmd(iRMD) { }
     virtual ~RMD_L() { }
 
+    // Retrieve the actuator's PID parameters
     const RMDMsg &getPID() {
       RMDMsg command;
       command.oneByte.cmd = 0x30;
@@ -20,6 +21,7 @@ class RMD_L {
       return rmd.data();
     }
 
+    // Write PID parameters to actuator RAM
     const RMDMsg &setPID(uint8_t iAngleKp, uint8_t iAngleKi, uint8_t iSpeedKp, uint8_t iSpeedKi, uint8_t iTorqueKp, uint8_t iTorqueKi) {
       RMDMsg command;
       command.pid.cmd = 0x31;
@@ -34,6 +36,7 @@ class RMD_L {
       return rmd.data();
     }
 
+    // Save PID parameters to actuator ROM
     const RMDMsg &savePID(uint8_t iAngleKp, uint8_t iAngleKi, uint8_t iSpeedKp, uint8_t iSpeedKi, uint8_t iTorqueKp, uint8_t iTorqueKi) {
       RMDMsg command;
       command.pid.cmd = 0x32;
@@ -48,6 +51,7 @@ class RMD_L {
       return rmd.data();
     }
 
+    // Retrieve the actuator's current acceleration
     const RMDMsg &getAcceleration() {
       RMDMsg command;
       command.oneByte.cmd = 0x33;
@@ -56,6 +60,7 @@ class RMD_L {
       return rmd.data();
     }
 
+    // Retrieve the actuator's current encoder position
     const RMDMsg &getEncoder() {
       RMDMsg command;
       command.oneByte.cmd = 0x90;
@@ -64,6 +69,7 @@ class RMD_L {
       return rmd.data();
     }
 
+    // Retrieve the actuator's current angular positon
     const RMDMsg &getMultiTurnAngle() {
       RMDMsg command;
       command.oneByte.cmd = 0x92;
@@ -72,6 +78,7 @@ class RMD_L {
       return rmd.data();
     }
 
+    // Disable torque
     const RMDMsg &motorOff() {
       RMDMsg command;
       command.oneByte.cmd = 0x80;
@@ -80,6 +87,7 @@ class RMD_L {
       return rmd.data();
     }
 
+    // Stop motion and break
     const RMDMsg &motorStop() {
       RMDMsg command;
       command.oneByte.cmd = 0x81;
@@ -88,6 +96,7 @@ class RMD_L {
       return rmd.data();
     }
 
+    // Resume after a stop or off
     const RMDMsg &motorResume() {
       RMDMsg command;
       command.oneByte.cmd = 0x88;
@@ -96,6 +105,7 @@ class RMD_L {
       return rmd.data();
     }
 
+    // Retrieve the current angukar position
     const RMDMsg &getPosition() {
       RMDMsg command;
       command.oneByte.cmd = 0x92;
@@ -104,6 +114,7 @@ class RMD_L {
       return rmd.data();
     }
 
+    // Retrieve motor status 1
     const RMDMsg &getMotorStatus1() {
       RMDMsg command;
       command.oneByte.cmd = 0x9a;
@@ -112,6 +123,7 @@ class RMD_L {
       return rmd.data();
     }
 
+    // Retrieve motor status 2
     const RMDMsg &getMotorStatus2() {
       RMDMsg command;
       command.oneByte.cmd = 0x9c;
@@ -120,6 +132,7 @@ class RMD_L {
       return rmd.data();
     }
 
+    // Retrieve motor status 3
     const RMDMsg &getMotorStatus3() {
       RMDMsg command;
       command.oneByte.cmd = 0x9d;
@@ -128,6 +141,7 @@ class RMD_L {
       return rmd.data();
     }
     
+    // Induce motion by setting the torque current in amps
     const RMDMsg &setTorqueCurrent(float iCurrent) {
       RMDMsg command;
       command.torqueCurrent.cmd = 0xa1;
@@ -137,6 +151,7 @@ class RMD_L {
       return rmd.data();
     }
 
+    // Induce motion by setting the speed in degrees per second
     const RMDMsg &setSpeed(float iDPS) {
       RMDMsg command;
       command.speed.cmd = 0xa2;
@@ -146,6 +161,7 @@ class RMD_L {
       return rmd.data();
     }
 
+    // Induce motion by setting the angular position in degrees
     const RMDMsg &setPosition(float iAngle) {
       RMDMsg command;
       command.position.cmd = 0xa3;
@@ -155,6 +171,7 @@ class RMD_L {
       return rmd.data();
     }
 
+    // Induce motion to an angular position at a specific speed
     const RMDMsg &setPosition(uint16_t iSpeed, float iAngle) {
       RMDMsg command;
       command.speedAndPosition.cmd = 0xa4;
